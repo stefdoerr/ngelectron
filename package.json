@@ -6,9 +6,10 @@
         "start": "electron ."
     },
     "devDependencies": {
-        "electron-prebuilt": "^0.30.3"
+        "electron": "^1.8.4"
     },
     "dependencies": {
+        "grpc": "^1.10.1",
         "ngl": "^0.10.4"
     }
 }
