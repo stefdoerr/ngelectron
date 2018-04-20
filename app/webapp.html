@@ -24,7 +24,7 @@
   <script src="js/ui/ui.js"></script>
   <script src="js/ui/ui.extra.js"></script>
   <script src="js/ui/ui.ngl.js"></script>
-  <script src="js/gui.js"></script> 
+  <script src="js/gui.js"></script>
 
 <!-- Insert this line after script imports -->
 <script>if (window.module) module = window.module;</script>
@@ -66,20 +66,35 @@
         })
       }
     })
+
   </script>
 </body>
-  <script>
-    "use strict";
+<script>
 
+    var PROTO_PATH = __dirname + '/../communication.proto';
+    //var PROTO_PATH = '../communication.proto';
     var grpc = require('grpc');
     var hello_proto = grpc.load(PROTO_PATH).helloworld;
+
+    /**
+     * Implements the SayHello RPC method.
+     */
     function sayHello(call, callback) {
       callback(null, {message: 'Hello ' + call.request.name});
     }
-    var server = new grpc.Server();
-    server.addService(hello_proto.Greeter.service, {sayHello: sayHello});
-    server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure());
-    server.start();
 
-  </script>
+    /**
+     * Starts an RPC server that receives requests for the Greeter service at the
+     * sample server port
+     */
+    function main() {
+      var server = new grpc.Server();
+      server.addService(hello_proto.Greeter.service, {sayHello: sayHello});
+      server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure());
+      server.start();
+    }
+
+    main();
+    console.log('Started server?')
+</script>
 </html>
