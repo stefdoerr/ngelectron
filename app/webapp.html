@@ -73,19 +73,19 @@
     var PROTO_PATH = __dirname + '/../communication.proto';
     //var PROTO_PATH = '../communication.proto';
     var grpc = require('grpc');
-    var hello_proto = grpc.load(PROTO_PATH).helloworld;
+    var comm_proto = grpc.load(PROTO_PATH).communication;
 
     /**
      * Implements the SayHello RPC method.
      */
-    function sayHello(call, callback) {
+    function loadStructure(call, callback) {
         // stage.loadFile('rcsb://' + call.request.name + '.mmtf', {defaultRepresentation: true})
 
-        var stringBlob = new Blob( [ call.request.name ], { type: 'text/plain'} );
+        var stringBlob = new Blob( [ call.request.structure ], { type: 'text/plain'} );
         console.log(stringBlob)
-        stage.loadFile( stringBlob, { ext: "pdb", name: 'Put A Name Here', defaultRepresentation: true } );
+        stage.loadFile( stringBlob, { ext: "pdb", name: call.request.name, defaultRepresentation: true } );
         //stage.loadFile(call.request.name, {defaultRepresentation: true})
-      callback(null, {message: 'Hello ' + call.request.name});
+      callback(null, {message: 'Loaded file!'});
     }
 
     /**
@@ -94,12 +94,11 @@
      */
     function main() {
       var server = new grpc.Server();
-      server.addService(hello_proto.Greeter.service, {sayHello: sayHello});
+      server.addService(comm_proto.StructureLoader.service, {loadStructure: loadStructure});
       server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure());
       server.start();
     }
 
     main();
-    console.log('Started server?')
 </script>
 </html>

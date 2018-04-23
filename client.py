@@ -25,8 +25,8 @@ def run():
     blob = get_structure_blob(mol)
 
     channel = grpc.insecure_channel('localhost:50051')
-    stub = communication_pb2_grpc.GreeterStub(channel)
-    response = stub.SayHello(communication_pb2.HelloRequest(name=blob))
+    stub = communication_pb2_grpc.StructureLoaderStub(channel)
+    response = stub.LoadStructure(communication_pb2.StructureString(name=mol.viewname, structure=blob))
     print("Greeter client received: " + response.message)
 
 
