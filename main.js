@@ -1,4 +1,7 @@
 'use strict';
+const args = require('./args');
+const opts = args.parse(process.argv.slice(1));
+
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
@@ -6,6 +9,9 @@ const BrowserWindow = electron.BrowserWindow;
 require('electron-debug')({showDevTools: true});
 
 var mainWindow = null;
+
+console.log(opts.ip)
+console.log(opts.port)
 
 app.on('ready', function() {
     mainWindow = new BrowserWindow({
