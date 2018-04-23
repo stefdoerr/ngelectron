@@ -7,11 +7,11 @@ Based on the great [NGL](https://github.com/arose/ngl/) molecular viewer.
 ## Install
 
 ```bash
-$ git clone https://github.com/stefdoerr/ElectroNGL
-$ cd ElectroNGL
-$ npm install grpc --runtime=electron --target=1.8.4
-$ npm install
-$ npm start
+git clone https://github.com/stefdoerr/ElectroNGL
+cd ElectroNGL
+npm install grpc --runtime=electron --target=1.8.4
+npm install
+npm start
 ```
 
 
