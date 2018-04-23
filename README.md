@@ -1,4 +1,4 @@
-# ElectroNGL: Standalone NGL viewer
+# NGeLectron: Standalone NGL viewer
 
 Uses Electron to convert the NGL viewer to a standalone application.
 
@@ -13,6 +13,13 @@ npm install grpc --runtime=electron --target=1.8.4
 npm install
 bash compile_proto.sh
 npm start
+```
+
+## Release
+
+```bash
+npm install electron-packager -g
+electron-packager . --all --asar
 ```
 
 

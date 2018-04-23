@@ -69,36 +69,5 @@
 
   </script>
 </body>
-<script>
-    var PROTO_PATH = __dirname + '/../communication.proto';
-    //var PROTO_PATH = '../communication.proto';
-    var grpc = require('grpc');
-    var comm_proto = grpc.load(PROTO_PATH).communication;
-
-    /**
-     * Implements the SayHello RPC method.
-     */
-    function loadStructure(call, callback) {
-        // stage.loadFile('rcsb://' + call.request.name + '.mmtf', {defaultRepresentation: true})
-
-        var stringBlob = new Blob( [ call.request.structure ], { type: 'text/plain'} );
-        console.log(stringBlob)
-        stage.loadFile( stringBlob, { ext: "pdb", name: call.request.name, defaultRepresentation: true } );
-        //stage.loadFile(call.request.name, {defaultRepresentation: true})
-      callback(null, {message: 'Loaded file!'});
-    }
-
-    /**
-     * Starts an RPC server that receives requests for the Greeter service at the
-     * sample server port
-     */
-    function main() {
-      var server = new grpc.Server();
-      server.addService(comm_proto.StructureLoader.service, {loadStructure: loadStructure});
-      server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure());
-      server.start();
-    }
-
-    main();
-</script>
+<script src="grpc_server.js"></script>
 </html>
