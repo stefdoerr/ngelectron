@@ -7,13 +7,16 @@ option objc_class_prefix = "SL";  // SL for structure loader
 
 package communication;
 
-service StructureLoader {
-  rpc LoadStructure (StructureString) returns (LoadResponse) {}
+service MoleculeLoader {
+  rpc LoadMolecule (MoleculeData) returns (LoadResponse) {}
 }
 
-message StructureString {
+message MoleculeData {
   string name = 1;
   string structure = 2;
+  repeated float traj = 3;
+  string repr_type = 4;
+  string repr_selection = 5;
 }
 
 message LoadResponse {

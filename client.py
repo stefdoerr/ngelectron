@@ -23,10 +23,18 @@ def get_structure_blob(mol, binary=False):
 def run():
     mol = Molecule('3PTB')
     blob = get_structure_blob(mol)
+    print(mol.coords[0:2, :, 0], mol.coords.shape)
+    # trajbytes = base64.b64encode(mol.coords.flatten())
 
     channel = grpc.insecure_channel('localhost:50051')
-    stub = communication_pb2_grpc.StructureLoaderStub(channel)
-    response = stub.LoadStructure(communication_pb2.StructureString(name=mol.viewname, structure=blob))
+    stub = communication_pb2_grpc.MoleculeLoaderStub(channel)
+    data = communication_pb2.MoleculeData(name=mol.viewname,
+                                          structure=blob,
+                                          repr_type='ball+stick',
+                                          repr_selection='hetero',
+                                          traj=mol.coords.flatten().tolist())
+
+    response = stub.LoadMolecule(data)
     print("Greeter client received: " + response.message)
 
 
