@@ -7,21 +7,17 @@ var comm_proto = grpc.load(PROTO_PATH).communication;
 function trajToFrames(traj){
     var natoms = traj[0];
     var nframes = traj[1];
-    var frames = NGL.Frames('a', 'b')
+    var frames = new NGL.Frames('trajectory', 'b');
     var coords = [];
 
     for (f = 0; f < nframes; f += 1){
-        var fatoms = [];
-        for (a = 0; a < natoms; a += 1){
-            fatoms.push(traj[2+(f*natoms)+a]);
-        }
-        coords.push(fatoms);
+        coords.push(traj.slice(2 + f*natoms*3));  // Skip the two first numbers which are natoms, nframes
     }
+    frames.coordinates = coords;
     return frames;
 }
 
 function loadStructure(call, callback){
-
 
     if (call.request.structure) {
         var stringBlob = new Blob( [ call.request.structure ], { type: 'text/plain'} );
@@ -40,9 +36,8 @@ function loadStructure(call, callback){
                 stage.defaultFileRepresentation(structureComponent)
             }
             if (reqdata.traj && (reqdata.traj.length != 0)){
-                // frames = trajToFrames(call.request.traj)
-                console.log(structureComponent)
-                structureComponent.addTrajectory(reqdata.traj)
+                frames = trajToFrames(call.request.traj);
+                structureComponent.addTrajectory(frames);
             }
         })
     }
