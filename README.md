@@ -11,6 +11,7 @@ git clone https://github.com/stefdoerr/ngelectron
 cd ngelectron
 npm install grpc --runtime=electron --target=1.8.4
 npm install
+pip install grpcio-tools
 bash compile_proto.sh
 npm start
 ```
